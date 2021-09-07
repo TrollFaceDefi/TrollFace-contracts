@@ -1496,8 +1496,8 @@ contract MasterChef is Ownable, ReentrancyGuard  {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
         uint fee =  user.amount.mul(300).div(10000);  // 3% exit fee
-        pool.lpToken.safeTransferFrom(address(msg.sender), address(devaddr), fee);
-        pool.lpToken.safeTransferFrom(address(msg.sender), address(this),  user.amount-fee);
+            pool.lpToken.safeTransfer(address(devaddr), fee);
+            pool.lpToken.safeTransfer(address(msg.sender), _amount - fee);
         emit EmergencyWithdraw(msg.sender, _pid, user.amount);
         user.amount = 0;
         user.rewardDebt = 0;
